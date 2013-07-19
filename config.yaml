@@ -1,5 +1,7 @@
 nick: gerrit-wm
 default-channel: "#wikimedia-dev"
+blacklist:
+    L10n-bot
 channels:
     "#wikimedia-mobile": [
         "mediawiki/extensions/MobileFrontend",

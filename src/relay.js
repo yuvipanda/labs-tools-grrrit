@@ -69,13 +69,16 @@ function startRelay() {
             var message = JSON.parse(reply[1]);
             if(processors[message.type]) {
                 var msg = processors[message.type](message);
+
                 if(msg) {
-                    var relayMsg = template.render(msg).replace(/\s+/gm, ' ');
-                    var channels = channelsForRepo(message.change.project);
-                    console.log(channels.length);
-                    _.each(channels, function(channel) {
-                        ircClient.say(channel, relayMsg);
-                    });
+                    if(conf.blacklist.indexOf(msg.user) === -1) {
+                        var relayMsg = template.render(msg).replace(/\s+/gm, ' ');
+                        var channels = channelsForRepo(message.change.project);
+                        console.log(channels.length);
+                        _.each(channels, function(channel) {
+                            ircClient.say(channel, relayMsg);
+                        });
+                    }
                 }
             }
             doEcho();
