@@ -70,6 +70,9 @@ exports['comment-added'] = function(message) {
 // For Merge, Restore and Abandon
 function formatSimpleEvent(type, userProperty) {
     return function(message) {
+        if(message[userProperty].name === 'L10n-bot') {
+            return undefined;
+        }
         return {
             type: type,
             user: message[userProperty].name,
