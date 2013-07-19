@@ -13,6 +13,10 @@ function filterNonDefault(branch) {
     return (branch !== 'master' && branch !== 'production') ? branch : undefined;
 }
 
+function formatComment(comment) {
+    return comment.replace(/^\s*Patch Set \d+:.*$/m, '').trim().split("\n")[0];
+}
+
 exports['patchset-created'] = function(message) {
     return {
         type: 'New PS' + message.patchSet.number,
@@ -28,7 +32,7 @@ exports['comment-added'] = function(message) {
     var ret = {
         type: 'CR',
         user: message.author.name,
-        'message': message.comment, // FIXME: Strip this
+        'message': formatComment(message.comment),
         repo: message.change.project,
         branch: filterNonDefault(message.change.branch),
         url: message.change.url
