@@ -65,15 +65,12 @@ function startRelay() {
     redisClient.addListener('error', errorLog);
 
     function doEcho() {
-        console.log('waiting');
         redisClient.brpop(conns.redis['queue-key'], 0, function(err, reply) {
             var message = JSON.parse(reply[1]);
             if(processors[message.type]) {
-                console.log(message);
                 var msg = processors[message.type](message);
                 if(msg) {
                     var relayMsg = template.render(msg).replace(/\s+/gm, ' ');
-                    console.log(relayMsg);
                     var channels = channelsForRepo(message.change.project);
                     _.each(channels, function(channel) {
                         ircClient.say(channel, relayMsg);
