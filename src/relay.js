@@ -17,7 +17,8 @@ var template = swig.compileFile('template.txt');
 var channel = '##legoktm-bots-chatter';
 
 var ircClient = new irc.Client('irc.freenode.net', 'lolrrit-wm', {
-    channels: [channel]
+    channels: [channel],
+    floodProtection: true
 });
 ircClient.addListener('error', errorLog);
 
