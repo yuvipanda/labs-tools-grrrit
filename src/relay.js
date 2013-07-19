@@ -74,9 +74,7 @@ function startRelay() {
                     var channels = channelsForRepo(message.change.project);
                     console.log(channels.length);
                     _.each(channels, function(channel) {
-                        console.log(channel);
-                        console.log(relayMsg);
-                        //ircClient.say(channel, relayMsg);
+                        ircClient.say(channel, relayMsg);
                     });
                 }
             }
