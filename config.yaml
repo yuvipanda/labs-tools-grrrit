@@ -19,7 +19,7 @@ channels:
         "labs/.*"
     ]
     "#wikimedia-operations": [
-        "operations/*"
+        "operations.*"
     ]
     "#mediawiki-i18n": [
         "translatewiki.*"
