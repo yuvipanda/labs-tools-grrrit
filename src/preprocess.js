@@ -38,9 +38,9 @@ exports['comment-added'] = function(message) {
     };
     var comment = message.comment.replace(/^\s*Patch Set \d+:.*$/m, '').trim().split("\n")[0].trim();
     if(!comment) {
-        comment = message.change.subject;
+        comment = message.change.subject.substring(0, 140);
     } else {
-        comment = '"' + comment + '"';
+        comment = '"' + comment.substring(0, 138) + '"';
     }
     ret.message = comment;
     if(message.approvals) {
