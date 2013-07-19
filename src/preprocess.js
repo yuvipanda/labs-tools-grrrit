@@ -61,8 +61,6 @@ exports['comment-added'] = function(message) {
             // Customize to relay other messages that might be useful
             ret = undefined;
         }
-    } else if(ret.user === 'L10n-bot') {
-        ret = undefined;
     }
     return ret;
 }
