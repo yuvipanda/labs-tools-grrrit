@@ -1,7 +1,10 @@
-var irc = require('irc'),
+var _ = require('underscore'),
+    irc = require('irc'),
     redis = require('redis'),
     swig = require('swig'),
-    processors = require('./preprocess.js');
+    processors = require('./preprocess.js'),
+    yaml = require('js-yaml'),
+    config = require('../config.yaml');
 
 function errorLog(message) {
     console.log(message);
@@ -12,12 +15,33 @@ swig.init({
     root: __dirname
 });
 
+// Accumulate list of channels to join
+var allChannels = [];
+
+_.each(config.repos, function(filter, key) {
+    allChannels = allChannels.concat(filter.channels);
+});
+
+console.log(allChannels);
+
+function channelsForRepo(repo) {
+    var channels = [];
+    _.each(config.repos, function(filter, key) {
+        if(repo === key) {
+            channels = channels.concat(filter.channels);
+        }
+    });
+    if(!channels.length) {
+        channels = config.repos.default.channels;
+    }
+    console.log(channels);
+    return channels;
+}
+
 var template = swig.compileFile('template.txt');
 
-var channel = '##legoktm-bots-chatter';
-
 var ircClient = new irc.Client('irc.freenode.net', 'lolrrit-wm', {
-    channels: [channel],
+    channels: allChannels,
     floodProtection: true
 });
 ircClient.addListener('error', errorLog);
@@ -35,7 +59,10 @@ function doEcho() {
             if(msg) {
                 var relayMsg = template.render(msg).replace(/\s+/gm, ' ');
                 console.log(relayMsg);
-                ircClient.say(channel, relayMsg);
+                var channels = channelsForRepo(message.change.project);
+                _.each(channels, function(channel) {
+                    ircClient.say(channel, relayMsg);
+                });
             }
         }
         doEcho();
