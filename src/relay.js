@@ -7,7 +7,11 @@ function errorLog(message) {
     console.log(message);
 }
 
-var template = swig.compile("{{type}}: {{user}}, '{{message}}' [{{repo}}] {% if branch %}({{branch}}){% endif %} {% for value in approvals %}{{loop.key}}: {{value}} {% endfor %}- {{url}}");
+swig.init({
+    autoescape: false
+});
+
+var template = swig.compile("({{type}}) {{user}}: {{message}} [{{repo}}] {% if branch %}({{branch}}){% endif %} {% for value in approvals %}{{loop.key}}: {{value}} {% endfor %}- {{url}}");
 
 var channel = '##legoktm-bots-chatter';
 
@@ -18,9 +22,6 @@ ircClient.addListener('error', errorLog);
 
 var redisClient = redis.createClient();
 redisClient.addListener('error', errorLog);
-
-function formatRelay(msg) {
-}
 
 function doEcho() {
     console.log('waiting');

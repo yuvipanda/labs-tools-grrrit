@@ -13,13 +13,9 @@ function filterNonDefault(branch) {
     return (branch !== 'master' && branch !== 'production') ? branch : undefined;
 }
 
-function formatComment(comment) {
-    return comment.replace(/^\s*Patch Set \d+:.*$/m, '').trim().split("\n")[0];
-}
-
 exports['patchset-created'] = function(message) {
     return {
-        type: 'New PS' + message.patchSet.number,
+        type: 'PS' + message.patchSet.number,
         user: message.uploader.name,
         'message': message.change.subject,
         repo: message.change.project,
@@ -32,11 +28,17 @@ exports['comment-added'] = function(message) {
     var ret = {
         type: 'CR',
         user: message.author.name,
-        'message': formatComment(message.comment),
         repo: message.change.project,
         branch: filterNonDefault(message.change.branch),
         url: message.change.url
     };
+    var comment = message.comment.replace(/^\s*Patch Set \d+:.*$/m, '').trim().split("\n")[0].trim();
+    if(!comment) {
+        comment = message.change.subject;
+    } else {
+        comment = '"' + comment + '"';
+    }
+    ret.message = comment;
     if(message.approvals) {
         ret.approvals = {};
         message.approvals.forEach(function(approval) {
