@@ -40,35 +40,50 @@ function channelsForRepo(repo) {
 
 var template = swig.compileFile('template.txt');
 
-var ircClient = new irc.Client('irc.freenode.net', 'lolrrit-wm', {
+var ircClient = new irc.Client('irc.freenode.net', config.nick, {
     channels: allChannels,
     floodProtection: true
 });
 ircClient.addListener('error', errorLog);
 
-var redisClient = redis.createClient();
-redisClient.addListener('error', errorLog);
+var joinedChannels = [];
+function waitForChannelJoins(channel, nick, message) {
+    if(nick === config.nick) {
+        joinedChannels.push(channel);
+        console.log("Joined " + channel);
+    }
+    if(joinedChannels.length === allChannels.length) {
+        ircClient.removeListener('join', waitForChannelJoins);
+        console.log("Joined " + joinedChannels.length + " channels. Starting relay");
+        startRelay();
+    }
+}
+ircClient.addListener('join', waitForChannelJoins);
+function startRelay() {
+    var redisClient = redis.createClient();
+    redisClient.addListener('error', errorLog);
 
-function doEcho() {
-    console.log('waiting');
-    redisClient.brpop('lolrrit-wm', 0, function(err, reply) {
-        var message = JSON.parse(reply[1]);
-        if(processors[message.type]) {
-            console.log(message);
-            var msg = processors[message.type](message);
-            if(msg) {
-                var relayMsg = template.render(msg).replace(/\s+/gm, ' ');
-                console.log(relayMsg);
-                var channels = channelsForRepo(message.change.project);
-                _.each(channels, function(channel) {
-                    ircClient.say(channel, relayMsg);
-                });
+    function doEcho() {
+        console.log('waiting');
+        redisClient.brpop('lolrrit-wm', 0, function(err, reply) {
+            var message = JSON.parse(reply[1]);
+            if(processors[message.type]) {
+                console.log(message);
+                var msg = processors[message.type](message);
+                if(msg) {
+                    var relayMsg = template.render(msg).replace(/\s+/gm, ' ');
+                    console.log(relayMsg);
+                    var channels = channelsForRepo(message.change.project);
+                    _.each(channels, function(channel) {
+                        ircClient.say(channel, relayMsg);
+                    });
+                }
             }
-        }
+            doEcho();
+        });
+    }
+
+    redisClient.select(7, function() {
         doEcho();
     });
 }
-
-redisClient.select(7, function() {
-    doEcho();
-});
