@@ -4,7 +4,8 @@ var _ = require('underscore'),
     swig = require('swig'),
     processors = require('./preprocess.js'),
     yaml = require('js-yaml'),
-    config = require('../config.yaml');
+    config = require('../config.yaml'),
+    conns = require('../connections.yaml');
 
 function errorLog(message) {
     console.log(message);
@@ -60,12 +61,12 @@ function waitForChannelJoins(channel, nick, message) {
 }
 ircClient.addListener('join', waitForChannelJoins);
 function startRelay() {
-    var redisClient = redis.createClient();
+    var redisClient = redis.createClient(conns.redis.port, conns.redis.host);
     redisClient.addListener('error', errorLog);
 
     function doEcho() {
         console.log('waiting');
-        redisClient.brpop('lolrrit-wm', 0, function(err, reply) {
+        redisClient.brpop(conns.redis['queue-key'], 0, function(err, reply) {
             var message = JSON.parse(reply[1]);
             if(processors[message.type]) {
                 console.log(message);
@@ -83,7 +84,7 @@ function startRelay() {
         });
     }
 
-    redisClient.select(7, function() {
+    redisClient.select(conns.redis.db, function() {
         doEcho();
     });
 }
