@@ -1,6 +1,10 @@
-({{type}}) {{user}}: 
+({{type}}) {{user}}:
+    {% if approvals %}
+        [{% for value in approvals -%}
+            {{loop.key}}: {{value}}{% if not loop.last %} {% endif -%}
+        {%- endfor -%}]
+    {% endif %}
     {{message}} 
     [{{repo}}]
     {% if branch %} ({{branch}}) {% endif %}
-    {% for value in approvals %}{{loop.key}}: {{value}} {% endfor %}
     - {{url}}
