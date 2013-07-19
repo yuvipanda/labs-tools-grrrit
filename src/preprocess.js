@@ -13,12 +13,16 @@ function filterNonDefault(branch) {
     return (branch !== 'master' && branch !== 'production') ? branch : undefined;
 }
 
+function formatRepo(repo) {
+    return repo.replace(/^mediawiki\//, '');
+}
+
 exports['patchset-created'] = function(message) {
     return {
         type: 'PS' + message.patchSet.number,
         user: message.uploader.name,
         'message': message.change.subject,
-        repo: message.change.project,
+        repo: formatRepo(message.change.project),
         branch: filterNonDefault(message.change.branch),
         url: message.change.url
     }
@@ -28,7 +32,7 @@ exports['comment-added'] = function(message) {
     var ret = {
         type: 'CR',
         user: message.author.name,
-        repo: message.change.project,
+        repo: formatRepo(message.change.project),
         branch: filterNonDefault(message.change.branch),
         url: message.change.url
     };
@@ -68,7 +72,7 @@ function formatSimpleEvent(type, userProperty) {
             type: type,
             user: message[userProperty].name,
             'message': message.change.subject,
-            repo: message.change.project,
+            repo: formatRepo(message.change.project),
             branch: filterNonDefault(message.change.branch),
             url: message.change.url
         };
