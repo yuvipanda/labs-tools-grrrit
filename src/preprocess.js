@@ -55,8 +55,8 @@ exports['comment-added'] = function(message) {
     }
     if(ret.user === 'jenkins-bot') {
         ret.message = message.change.subject;
-        if(!ret.approvals || ret.approvals.V == 2) {
-            // Don't relay jenkins-bot comments that don't add approvals
+        if(!ret.approvals || ret.approvals.V > 0) {
+            // Don't relay jenkins-bot comments that don't add negative approvals
             // Also don't add V+2 from jenkins bot, since it will merge right after
             // Customize to relay other messages that might be useful
             ret = undefined;
