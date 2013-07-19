@@ -1,0 +1,6 @@
+({{type}}) {{user}}: 
+    {{message}} 
+    [{{repo}}]
+    {% if branch %} ({{branch}}) {% endif %}
+    {% for value in approvals %}{{loop.key}}: {{value}} {% endfor %}
+    - {{url}}

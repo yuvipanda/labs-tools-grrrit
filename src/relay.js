@@ -8,10 +8,11 @@ function errorLog(message) {
 }
 
 swig.init({
-    autoescape: false
+    autoescape: false,
+    root: __dirname
 });
 
-var template = swig.compile("({{type}}) {{user}}: {{message}} [{{repo}}] {% if branch %}({{branch}}){% endif %} {% for value in approvals %}{{loop.key}}: {{value}} {% endfor %}- {{url}}");
+var template = swig.compileFile('template.txt');
 
 var channel = '##legoktm-bots-chatter';
 
@@ -31,7 +32,7 @@ function doEcho() {
             console.log(message);
             var msg = processors[message.type](message);
             if(msg) {
-                var relayMsg = template(msg);
+                var relayMsg = template.render(msg).replace(/\s+/gm, ' ');
                 console.log(relayMsg);
                 ircClient.say(channel, relayMsg);
             }
