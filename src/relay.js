@@ -18,7 +18,7 @@ swig.init({
 
 var allChannels = _.keys(config.channels);
 
-if(allChannels.indexOf(config['default-channel'] === -1)) {
+if(allChannels.indexOf(config['default-channel']) === -1) {
     allChannels.push(config['default-channel']);
 }
 
