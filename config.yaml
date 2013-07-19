@@ -1,4 +1,49 @@
-nick: lolrrit-wm
-repos:
-    default:
-        channels: ["##legoktm-bots-chatter"]
+nick: lolrrit-wm2
+default-channel: "#wikimedia-dev"
+channels:
+    "#wikimedia-mobile": [
+        "mediawiki/extensions/MobileFrontend",
+        "mediawiki/extensions/ZeroRatedMobileAccess"
+    ]
+    "#mediawiki-parsoid": [
+        "mediawiki/extensions/Parsoid"
+    ]
+    "#mediawiki-visualeditor": [
+        "mediawiki/extensions/VisualEditor",
+        "mediawiki/extensions/TemplateData"
+    ]
+    "#wikimedia-analytics": [
+        "analytics/.*"
+    ]
+    "#wikimedia-labs": [
+        "labs/.*"
+    ]
+    "#wikimedia-operations": [
+        "operations/*"
+    ]
+    "#mediawiki-i18n": [
+        "translatewiki.*"
+    ]
+    "#wikimedia-wikidata": [
+        "mediawiki/extensions/Wikibase",
+        "mediawiki/extensions/Wikibase.*",
+        "mediawiki/extensions/Diff",
+        "mediawiki/extensions/Ask",
+        "mediawiki/extensions/DataTypes",
+        "mediawiki/extensions/DataValues",
+        "mediawiki/extensions/ValueView",
+        "mediawiki/extensions/ValueValidators",
+        "mediawiki/extensions/ValueParsers",
+        "mediawiki/extensions/ValueFormatters"
+    ]
+    "#pywikipediabot": [
+        "pywikipediabot.*"
+    ]
+    "#semantic-mediawiki": [
+        "mediawiki/extensions/Semantic.*",
+        "mediawiki/extensions/Validator",
+        "mediawiki/extensions/Maps",
+        "mediawiki/extensions/RDFIO",
+        "mediawiki/extensions/SolrStore",
+        "mediawiki/extensions/SMW.*"
+    ]

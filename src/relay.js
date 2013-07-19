@@ -16,26 +16,26 @@ swig.init({
     root: __dirname
 });
 
-// Accumulate list of channels to join
-var allChannels = [];
+var allChannels = _.keys(config.channels);
 
-_.each(config.repos, function(filter, key) {
-    allChannels = allChannels.concat(filter.channels);
-});
+if(allChannels.indexOf(config['default-channel'] === -1)) {
+    allChannels.push(config['default-channel']);
+}
 
 console.log(allChannels);
 
 function channelsForRepo(repo) {
     var channels = [];
-    _.each(config.repos, function(filter, key) {
-        if(repo === key) {
-            channels = channels.concat(filter.channels);
-        }
+    _.each(config.channels, function(repos, channel) {
+        _.each(repos, function(repo_candidate) {
+            if((new RegExp(repo_candidate)).test(repo)) {
+                channels.push(channel);
+            }
+        });
     });
     if(!channels.length) {
-        channels = config.repos.default.channels;
+        channels = [config['default-channel']]
     }
-    console.log(channels);
     return channels;
 }
 
@@ -72,8 +72,11 @@ function startRelay() {
                 if(msg) {
                     var relayMsg = template.render(msg).replace(/\s+/gm, ' ');
                     var channels = channelsForRepo(message.change.project);
+                    console.log(channels.length);
                     _.each(channels, function(channel) {
-                        ircClient.say(channel, relayMsg);
+                        console.log(channel);
+                        console.log(relayMsg);
+                        //ircClient.say(channel, relayMsg);
                     });
                 }
             }
