@@ -7,4 +7,4 @@
     {{message}} 
     [{{repo}}]
     {% if branch %} ({{branch}}) {% endif %}
-    - {{url}}
+    - {{url}} {% if owner %}(owner: {{ owner }}){% endif %}

@@ -24,7 +24,8 @@ exports['patchset-created'] = function(message) {
         'message': message.change.subject,
         repo: formatRepo(message.change.project),
         branch: filterNonDefault(message.change.branch),
-        url: message.change.url
+        url: message.change.url,
+        owner: message.change.owner.name
     }
 }
 
@@ -34,7 +35,8 @@ exports['comment-added'] = function(message) {
         user: message.author.name,
         repo: formatRepo(message.change.project),
         branch: filterNonDefault(message.change.branch),
-        url: message.change.url
+        url: message.change.url,
+        owner: message.change.owner.name
     };
     var comment = message.comment.replace(/^\s*Patch Set \d+:.*$/m, '').trim().split("\n")[0].trim();
     if(!comment) {
@@ -74,7 +76,8 @@ function formatSimpleEvent(type, userProperty) {
             'message': message.change.subject,
             repo: formatRepo(message.change.project),
             branch: filterNonDefault(message.change.branch),
-            url: message.change.url
+            url: message.change.url,
+            owner: message.change.owner.name
         };
     };
 }
