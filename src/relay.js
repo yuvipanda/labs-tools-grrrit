@@ -71,7 +71,7 @@ function startRelay() {
                 var msg = processors[message.type](message);
 
                 if(msg) {
-                    if(conf.blacklist.indexOf(msg.user) === -1) {
+                    if(config.blacklist.indexOf(msg.user) === -1) {
                         var relayMsg = template.render(msg).replace(/\s+/gm, ' ');
                         var channels = channelsForRepo(message.change.project);
                         console.log(channels.length);
