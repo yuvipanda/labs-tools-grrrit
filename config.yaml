@@ -1,4 +1,4 @@
-nick: lolrrit-wm2
+nick: gerrit-wm
 default-channel: "#wikimedia-dev"
 channels:
     "#wikimedia-mobile": [
