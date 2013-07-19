@@ -2,5 +2,3 @@ nick: lolrrit-wm
 repos:
     default:
         channels: ["##legoktm-bots-chatter"]
-    mediawiki/extensions/MobileFrontend:
-        channels: ["#wikimedia-mobile"]
