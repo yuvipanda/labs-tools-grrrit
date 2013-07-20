@@ -8,24 +8,24 @@ It is built to run on [Wikimedia ToolLabs][2], and is dependent on a
 redis queue populated by the stream receiver script that is part of
 [SuchABot][3].
 
-== Running it ==
+## Running it ##
 
 This is designed to run on the Grid Engine available on Tool Labs as 
 a continuous task. There is a convenience script `run.bash` to start
 the task on the Grid Engine. 
 
-== Config Changes ==
+## Config Changes ##
 
 To add more repo -> channel mappings, please edit `config.yaml`. The
 repo names can be matched using regexps. The tool needs to be restarted
 on SGE for the changes to take effect. Executing `run.bash` will kill
 the job and start it up again.
 
-== Logs ==
+## Logs ##
 
 There are somewhat comprehensive logs in the `~/logs` folder on toollabs.
 
-== Dependencies ==
+## Dependencies ##
 
 This is written with NodeJS, and has a few dependencies (which are all
 bundled in the repo):
@@ -36,7 +36,7 @@ bundled in the repo):
 4. swig
 5. js-yaml
 
-== LICENSE ==
+## LICENSE ##
 
 Licensed under WTFPL. See the LICENSE file for more details.
 
