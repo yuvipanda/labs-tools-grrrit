@@ -18,15 +18,18 @@ function formatRepo(repo) {
 }
 
 exports['patchset-created'] = function(message) {
-    return {
+    var ret = {
         type: 'PS' + message.patchSet.number,
         user: message.uploader.name,
         'message': message.change.subject,
         repo: formatRepo(message.change.project),
         branch: filterNonDefault(message.change.branch),
-        url: message.change.url,
-        owner: message.change.owner.name
+        url: message.change.url
     }
+    if(ret.user !== message.change.owner.name) {
+        ret.owner = message.change.owner.name;
+    }
+    return ret;
 }
 
 exports['comment-added'] = function(message) {
