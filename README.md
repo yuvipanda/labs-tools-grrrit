@@ -21,6 +21,10 @@ repo names can be matched using regexps. The tool needs to be restarted
 on SGE for the changes to take effect. Executing `run.bash` will kill
 the job and start it up again.
 
+== Logs ==
+
+There are somewhat comprehensive logs in the `~/logs` folder on toollabs.
+
 == Dependencies ==
 
 This is written with NodeJS, and has a few dependencies (which are all
