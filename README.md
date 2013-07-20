@@ -1,6 +1,6 @@
-# lorrit-wm
+# lolrrit-wm
 
-lorrit-wm is a simple IRC bot that listens to events from [gerrit][1]
+lolrrit-wm is a simple IRC bot that listens to events from [gerrit][1]
 and reports them on various IRC channels. Which repo changes report
 to which channels can be configured in `config.yaml`
 
