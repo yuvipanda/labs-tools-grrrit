@@ -32,6 +32,10 @@ bundled in the repo):
 4. swig
 5. js-yaml
 
+== LICENSE ==
+
+Licensed under WTFPL. See the LICENSE file for more details.
+
 [1]: https://gerrit.wikimedia.org
 [2]: http://tools.wmflabs.org
 [3]: https://github.com/yuvipanda/SuchABot
