@@ -4,11 +4,12 @@ var _ = require('underscore'),
     swig = require('swig'),
     processors = require('./preprocess.js'),
     yaml = require('js-yaml'),
+    logging = require('winston'),
     config = require('../config.yaml'),
     conns = require('../connections.yaml');
 
 function errorLog(message) {
-    console.log(message);
+    logging.error(message);
 }
 
 swig.init({
@@ -16,13 +17,19 @@ swig.init({
     root: __dirname
 });
 
+logging.add(logging.transports.File, {
+    filename: process.env['HOME'] + '/logs/lolrrit-wm.log',
+    json: false
+});
+logging.remove(logging.transports.Console);
+
 var allChannels = _.keys(config.channels);
 
 if(allChannels.indexOf(config['default-channel']) === -1) {
     allChannels.push(config['default-channel']);
 }
 
-console.log(allChannels);
+logging.info("joining channels", allChannels);
 
 function channelsForRepo(repo) {
     var channels = [];
@@ -51,11 +58,11 @@ var joinedChannels = [];
 function waitForChannelJoins(channel, nick, message) {
     if(nick === config.nick) {
         joinedChannels.push(channel);
-        console.log("Joined " + channel);
+        logging.info("Joined channel " + channel);
     }
     if(joinedChannels.length === allChannels.length) {
         ircClient.removeListener('join', waitForChannelJoins);
-        console.log("Joined " + joinedChannels.length + " channels. Starting relay");
+        logging.info("Joined " + joinedChannels.length + " channels. Starting relay");
         startRelay();
     }
 }
@@ -77,6 +84,7 @@ function startRelay() {
                         console.log(channels.length);
                         _.each(channels, function(channel) {
                             ircClient.say(channel, relayMsg);
+                            logging.info("Sent message from " + msg.repo + " to " + channel);
                         });
                     }
                 }
