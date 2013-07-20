@@ -18,11 +18,8 @@ the task on the Grid Engine.
 
 To add more repo -> channel mappings, please edit `config.yaml`. The
 repo names can be matched using regexps. The tool needs to be restarted
-on SGE for the changes to take effect. It can be stopped by doing:
-
-    jstop lolrrit-wm
-
-on toollabs, and then restarted again by running the `run.bash` script.
+on SGE for the changes to take effect. Executing `run.bash` will kill
+the job and start it up again.
 
 == Dependencies ==
 
