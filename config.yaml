@@ -1,4 +1,6 @@
 nick: grrrit-wm
+userName: lolrrit
+realName: GRRRit the Terrible
 default-channel: "#wikimedia-dev"
 blacklist:
     L10n-bot
