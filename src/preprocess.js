@@ -26,7 +26,11 @@ exports['patchset-created'] = function(message) {
         branch: filterNonDefault(message.change.branch),
         url: message.change.url
     }
-    if(ret.user !== message.change.owner.name) {
+    if(ret.user === 'SuchABot') {
+        // Special handling for SuchABot
+        ret.user = message.patchSet.author.name;
+        ret.via = 'SuchABot';
+    } else if(ret.user !== message.change.owner.name) {
         ret.owner = message.change.owner.name;
     }
     return ret;
