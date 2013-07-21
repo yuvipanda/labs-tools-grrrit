@@ -29,7 +29,6 @@ channels:
         "translatewiki.*"
     ]
     "#wikimedia-wikidata": [
-        "mediawiki/extensions/Wikibase",
         "mediawiki/extensions/Wikibase.*",
         "mediawiki/extensions/Diff",
         "mediawiki/extensions/Ask",
