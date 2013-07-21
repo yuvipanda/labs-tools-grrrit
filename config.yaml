@@ -41,7 +41,8 @@ channels:
         "mediawiki/extensions/ValueFormatters"
     ]
     "#pywikipediabot": [
-        "pywikipediabot.*"
+        "pywikipediabot.*",
+        "pywikibot.*"
     ]
     "#semantic-mediawiki": [
         "mediawiki/extensions/Semantic.*",
