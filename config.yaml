@@ -59,3 +59,13 @@ channels:
         "mediawiki/extensions/SolrStore",
         "mediawiki/extensions/SMW.*"
     ]
+    "#wikimedia-fundraising": [
+        "mediawiki/extensions/DonationInterface",
+        "mediawiki/extensions/CentralNotice",
+        "mediawiki/extensions/ContributionTracking",
+        "mediawiki/extensions/ContributionReporting",
+        "mediawiki/extensions/DonationEmailUnsubscribe",
+        "mediawiki/extensions/FundraiserLandingPage",
+        "mediawiki/extensions/FundraiserStatistics",
+        "wikimedia/fundraising/.*"
+    ]
