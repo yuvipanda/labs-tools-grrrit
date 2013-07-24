@@ -93,7 +93,7 @@ exports['change-merged'] = function(message) {
     var ret = formatSimpleEvent('Merged', 'submitter')(message);
     // Ignore any merges by anyone not jenkins-bot
     // This is always preceded by a C:2 by them, so we need not spam
-    if(msg.user !== 'jenkins-bot') {
+    if(ret.user !== 'jenkins-bot') {
         ret = undefined;
     }
     return ret;
